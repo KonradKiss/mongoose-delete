@@ -13,13 +13,13 @@ describe("mongoose_delete plugin without options", function () {
     Test1Schema.plugin(mongoose_delete);
     var Test1 = mongoose.model('Test1', Test1Schema);
 
-    before(function (done) {
+    beforeEach(function (done) {
         var puffy = new Test1({ name: 'Puffy' });
 
         puffy.save(function () { done(); });
     });
 
-    after(function (done) {
+    afterEach(function (done) {
         mongoose.connection.db.dropCollection("mongoose_delete_test1", function () { done(); });
     });
 
@@ -37,6 +37,7 @@ describe("mongoose_delete plugin without options", function () {
 
     it("delete() -> should not save 'deletedAt' value", function (done) {
         Test1.findOne({ name: 'Puffy' }, function (err, puffy) {
+            console.log('gy: ', puffy);
             should.not.exist(err);
 
             puffy.delete(function (err, success) {
@@ -66,13 +67,13 @@ describe("mongoose_delete with options: { deletedAt : true }", function () {
     Test2Schema.plugin(mongoose_delete, { deletedAt : true });
     var Test2 = mongoose.model('Test2', Test2Schema);
 
-    before(function (done) {
+    beforeEach(function (done) {
         var puffy = new Test2({ name: 'Puffy' });
 
         puffy.save(function () { done(); });
     });
 
-    after(function (done) {
+    afterEach(function (done) {
         mongoose.connection.db.dropCollection("mongoose_delete_test2", function () { done(); });
     });
 
@@ -108,13 +109,13 @@ describe("mongoose_delete with options: { deletedBy : true }", function () {
     Test3Schema.plugin(mongoose_delete, { deletedBy : true });
     var Test3 = mongoose.model('Test3', Test3Schema);
 
-    before(function (done) {
+    beforeEach(function (done) {
         var puffy = new Test3({ name: 'Puffy' });
 
         puffy.save(function () { done(); });
     });
 
-    after(function (done) {
+    afterEach(function (done) {
         mongoose.connection.db.dropCollection("mongoose_delete_test3", function () { done(); });
     });
 
